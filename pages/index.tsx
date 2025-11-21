@@ -447,7 +447,7 @@ export default function IndexPage() {
             paddingTop: '24px',
             paddingLeft: '16px',
             paddingRight: '16px',
-            paddingBottom: '16px',
+            paddingBottom: '1px',
             zIndex: 10,
           }}
         >
@@ -455,7 +455,8 @@ export default function IndexPage() {
           <div
             style={{
               backgroundColor: 'rgb(255, 255, 255)',
-              borderRadius: '12px',
+              borderTopLeftRadius: '12px',
+              borderTopRightRadius: '12px',
               boxShadow: '0 0 0 1px rgba(0, 0, 0, 0.05), 0 4px 20px rgba(0, 0, 0, 0.1)',
               overflow: 'hidden',
               width: '100%',
@@ -559,26 +560,23 @@ export default function IndexPage() {
             style={{
               width: '1099px',
               height: '368px',
-              backgroundColor: 'rgb(243, 244, 246)',
-              backgroundImage: 'linear-gradient(to bottom right, rgb(243, 244, 246), rgb(229, 231, 235))',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
               margin: 0,
               padding: 0,
               position: 'relative',
               left: '8px',
               top: '8px',
+              overflow: 'hidden',
             }}
           >
-            <div style={{ textAlign: 'center', color: 'rgb(156, 163, 175)' }}>
-              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ margin: '0 auto' }}>
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                <circle cx="8.5" cy="8.5" r="1.5" />
-                <polyline points="21 15 16 10 5 21" />
-              </svg>
-              <p style={{ marginTop: '12px', fontSize: '14px' }}>Screenshot placeholder</p>
-            </div>
+            <img
+              src="/screenshot.png"
+              alt="DomVisor Scan Screenshot"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
+            />
           </div>
         </div>
         </div>
