@@ -274,6 +274,7 @@ export default function HeroSection() {
         >
           {/* Browser header */}
           <div
+            className="browser-header"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -324,6 +325,7 @@ export default function HeroSection() {
 
             {/* Center - address bar */}
             <div
+              className="browser-address-bar"
               style={{
                 height: '32px',
                 backgroundColor: 'rgb(255, 255, 255)',
@@ -367,13 +369,8 @@ export default function HeroSection() {
           {/* Screenshot content */}
           <div
             style={{
-              width: '1099px',
-              height: '368px',
-              margin: 0,
-              padding: 0,
-              position: 'relative',
-              left: '8px',
-              top: '8px',
+              width: '100%',
+              padding: '8px',
               overflow: 'hidden',
             }}
           >
@@ -382,8 +379,8 @@ export default function HeroSection() {
               alt="DomVisor Scan Screenshot"
               style={{
                 width: '100%',
-                height: '100%',
-                objectFit: 'cover',
+                height: 'auto',
+                display: 'block',
               }}
             />
           </div>
