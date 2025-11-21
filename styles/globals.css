@@ -28,4 +28,337 @@
 
 body {
   font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+}
+
+@media (max-width: 1024px) {
+  body {
+    padding: 16px;
+  }
+}
+
+/* Navbar hover effects */
+.navbar-button:hover {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* CTA buttons hover effects */
+.cta-button-dark:hover {
+  background-color: rgb(45, 52, 56) !important;
+}
+
+.cta-button-outline:hover .arrow-icon {
+  transform: translateX(4px);
+}
+
+/* Logos carousel animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.scroll-container {
+  animation: scroll 80s linear infinite;
+}
+
+.scroll-container:hover {
+  animation-play-state: paused;
+}
+
+/* Logo grayscale effect */
+.logo-image {
+  filter: grayscale(100%);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.logo-image:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+/* Responsive styles */
+
+/* Navbar wrapper */
+.navbar-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 34px 40px 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.navbar-wrapper > * {
+  pointer-events: auto;
+}
+
+@media (max-width: 1024px) {
+  .navbar-wrapper {
+    padding: 16px 16px 0;
+  }
+}
+
+/* Page container responsive paddings */
+.page-container {
+  padding: 34px 40px;
+}
+
+@media (max-width: 1024px) {
+  .page-container {
+    padding: 0;
+  }
+}
+
+/* Gradient container responsive height */
+.gradient-container {
+  width: 1360px;
+  height: 974px;
+  position: relative;
+  border-radius: 24px;
+  margin: 0 auto;
+  padding-top: 96px;
+}
+
+@media (max-width: 1024px) {
+  .gradient-container {
+    width: 100%;
+    height: auto;
+    min-height: 700px;
+    border-radius: 16px;
+    padding-top: 102px;
+    margin: 0 auto;
+  }
+}
+
+/* Hero section responsive */
+.hero-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  row-gap: 24px;
+  padding-top: 120px;
+  width: 100%;
+  height: calc(974px - 455px);
+}
+
+@media (max-width: 1024px) {
+  .hero-container {
+    padding-top: 120px;
+    height: auto;
+    min-height: 400px;
+    row-gap: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+/* Hero title responsive */
+.hero-title {
+  font-size: 64px;
+  line-height: 72px;
+  width: 70%;
+}
+
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: 48px;
+    line-height: 56px;
+    width: 85%;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 32px;
+    line-height: 40px;
+    width: 100%;
+    padding: 0 8px;
+  }
+}
+
+/* Animated word container responsive */
+.animated-word-container {
+  display: inline-block;
+  position: relative;
+  min-width: 560px;
+  height: 72px;
+  vertical-align: top;
+  text-align: left;
+  overflow: visible;
+}
+
+@media (max-width: 1024px) {
+  .animated-word-container {
+    min-width: 420px;
+    height: 56px;
+  }
+}
+
+@media (max-width: 768px) {
+  .animated-word-container {
+    min-width: 280px;
+    height: 40px;
+  }
+}
+
+/* Hero subtitle responsive */
+.hero-subtitle {
+  font-size: 18px;
+  line-height: 24px;
+  width: 500px;
+}
+
+@media (max-width: 1024px) {
+  .hero-subtitle {
+    font-size: 16px;
+    line-height: 22px;
+    width: 450px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-subtitle {
+    font-size: 14px;
+    line-height: 20px;
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+/* CTA buttons container responsive */
+.cta-buttons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .cta-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 280px;
+    gap: 12px;
+  }
+
+  .cta-buttons button {
+    width: 100%;
+  }
+}
+
+/* Teaser button responsive */
+.teaser-button {
+  font-size: 14px;
+  height: 36px;
+  padding: 0 18px;
+}
+
+@media (max-width: 768px) {
+  .teaser-button {
+    font-size: 12px;
+    height: 32px;
+    padding: 0 14px;
+  }
+}
+
+/* Browser mockup responsive */
+.browser-mockup {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1152px;
+  height: 455.148px;
+}
+
+@media (max-width: 1200px) {
+  .browser-mockup {
+    width: 95%;
+    height: auto;
+    aspect-ratio: 1152 / 455;
+  }
+}
+
+@media (max-width: 768px) {
+  .browser-mockup {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1152 / 455;
+  }
+}
+
+/* Logos carousel responsive */
+.logos-carousel {
+  height: 90px;
+}
+
+@media (max-width: 1024px) {
+  .logos-carousel {
+    height: 70px;
+  }
+}
+
+@media (max-width: 768px) {
+  .logos-carousel {
+    height: 50px;
+  }
+}
+
+/* Navbar responsive */
+.navbar-container {
+  position: sticky;
+  top: 10px;
+  width: fit-content;
+  height: 50px;
+  z-index: 9999;
+  margin-top: 46px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 1024px) {
+  .navbar-container {
+    top: 15px;
+    height: 56px;
+    margin-top: 30px;
+    width: 90%;
+  }
+}
+
+.navbar-menu {
+  display: flex;
+}
+
+@media (max-width: 1024px) {
+  .navbar-menu {
+    display: none;
+  }
+}
+
+.navbar-button-desktop {
+  display: inline-flex;
+}
+
+@media (max-width: 1024px) {
+  .navbar-button-desktop {
+    display: none;
+  }
+}
+
+.navbar-burger {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .navbar-burger {
+    display: flex;
+  }
 }
