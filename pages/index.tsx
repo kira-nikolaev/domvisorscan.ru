@@ -1,6 +1,21 @@
 import { Link } from "@heroui/link";
 
 export default function IndexPage() {
+  const logos = [
+    { src: '/logos/fssp.png', alt: 'ФССП' },
+    { src: '/logos/fns.png', alt: 'ФНС' },
+    { src: '/logos/mvd.svg', alt: 'МВД' },
+    { src: '/logos/minjust.png', alt: 'Минюст' },
+    { src: '/logos/rosstat.png', alt: 'Росстат' },
+    { src: '/logos/avito.svg', alt: 'Авито' },
+    { src: '/logos/cian.png', alt: 'ЦИАН' },
+    { src: '/logos/moscow.svg', alt: 'Москва' },
+    { src: '/logos/domrf.png', alt: 'Дом.РФ' },
+    { src: '/logos/2gis.png', alt: '2ГИС' },
+    { src: '/logos/gisgmp.png', alt: 'ГИС ГМП' },
+    { src: '/logos/gisjkh.jpg', alt: 'ГИС ЖКХ' },
+  ];
+
   const navbarButtonStyle = `
     .navbar-button:hover {
       background-color: rgba(255, 255, 255, 0.7) !important;
@@ -10,6 +25,34 @@ export default function IndexPage() {
     }
     .cta-button-outline:hover .arrow-icon {
       transform: translateX(4px);
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .scroll-container {
+      animation: scroll 80s linear infinite;
+    }
+
+    .scroll-container:hover {
+      animation-play-state: paused;
+    }
+
+    .logo-image {
+      filter: grayscale(100%);
+      opacity: 0.7;
+      transition: all 0.3s ease;
+    }
+
+    .logo-image:hover {
+      filter: grayscale(0%);
+      opacity: 1;
     }
   `;
   return (
@@ -538,6 +581,125 @@ export default function IndexPage() {
             </div>
           </div>
         </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Animated logos section */}
+    <section
+      style={{
+        backgroundColor: 'transparent',
+        paddingTop: '20px',
+        paddingBottom: '60px',
+        overflow: 'hidden',
+      }}
+    >
+      <div
+        style={{
+          maxWidth: '1152px',
+          margin: '0 auto',
+          paddingLeft: '0',
+          paddingRight: '0',
+        }}
+      >
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            overflow: 'hidden',
+          }}
+        >
+          {/* Left shadow */}
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              bottom: 0,
+              width: '100px',
+              background: 'linear-gradient(to right, rgb(255, 255, 255), transparent)',
+              zIndex: 10,
+              pointerEvents: 'none',
+            }}
+          />
+          {/* Right shadow */}
+          <div
+            style={{
+              position: 'absolute',
+              right: 0,
+              top: 0,
+              bottom: 0,
+              width: '100px',
+              background: 'linear-gradient(to left, rgb(255, 255, 255), transparent)',
+              zIndex: 10,
+              pointerEvents: 'none',
+            }}
+          />
+          <div
+            style={{
+              width: '100%',
+              overflow: 'hidden',
+            }}
+          >
+            <div
+              className="scroll-container"
+              style={{
+                display: 'flex',
+                gap: '30px',
+                width: 'fit-content',
+              }}
+            >
+            {/* First set of logos */}
+            {logos.map((logo, index) => (
+              <div
+                key={`logo-1-${index}`}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  minWidth: '120px',
+                  height: '90px',
+                }}
+              >
+                <img
+                  src={logo.src}
+                  alt={logo.alt}
+                  className="logo-image"
+                  style={{
+                    height: '90px',
+                    width: 'auto',
+                    objectFit: 'contain',
+                  }}
+                />
+              </div>
+            ))}
+
+            {/* Duplicate set for seamless loop */}
+            {logos.map((logo, index) => (
+              <div
+                key={`logo-2-${index}`}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  minWidth: '120px',
+                  height: '90px',
+                }}
+              >
+                <img
+                  src={logo.src}
+                  alt={logo.alt}
+                  className="logo-image"
+                  style={{
+                    height: '90px',
+                    width: 'auto',
+                    objectFit: 'contain',
+                  }}
+                />
+              </div>
+            ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
