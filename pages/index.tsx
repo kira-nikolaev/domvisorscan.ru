@@ -5,9 +5,6 @@ import LogosCarousel from '@/components/LogosCarousel';
 export default function IndexPage() {
   return (
     <>
-      <div className="navbar-wrapper">
-        <Navbar />
-      </div>
       <section className="page-container relative min-h-screen flex flex-col items-center justify-start bg-white">
         <div
           className="gradient-container"
@@ -24,11 +21,9 @@ export default function IndexPage() {
             display: 'flex',
             flexDirection: 'column',
             lineHeight: '24px',
-            margin: 0,
-            padding: 0,
-            overflow: 'visible',
           }}
         >
+          <Navbar />
           <HeroSection />
         </div>
       </section>
