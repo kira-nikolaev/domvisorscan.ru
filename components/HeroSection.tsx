@@ -9,7 +9,7 @@ export default function HeroSection() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % PROPERTY_TYPES.length);
-    }, 5000); // меняем каждые 5 секунд
+    }, 3000); // меняем каждые 3 секунды
 
     return () => clearInterval(interval);
   }, []);
@@ -67,36 +67,53 @@ export default function HeroSection() {
             boxSizing: 'border-box',
             color: 'rgb(17, 24, 28)',
             fontFamily: "'Open Sans', sans-serif",
-            fontWeight: 700,
+            fontWeight: 800,
             padding: '0 40px',
             textAlign: 'center',
           }}
         >
-          Проверь{' '}
-          <span className="animated-word-container">
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={currentIndex}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.4, ease: 'easeInOut' }}
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  top: 0,
-                  textAlign: 'left',
-                  background: 'linear-gradient(90deg, rgb(69, 243, 255) 0%, rgb(54, 255, 131) 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                {PROPERTY_TYPES[currentIndex]}
-              </motion.span>
-            </AnimatePresence>
-          </span>{' '}
-          за 15 минут
+          {/* Desktop version - one line */}
+          <span className="static-word-desktop">
+            Проверь{' '}
+            <span
+              style={{
+                background: 'linear-gradient(90deg, rgb(69, 243, 255) 0%, rgb(54, 255, 131) 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              недвижимость
+            </span>
+            {' '}за 15 минут
+          </span>
+
+          {/* Mobile version - three lines */}
+          <span className="mobile-word-wrapper">
+            <span style={{ display: 'block', marginBottom: '-11px' }}>Проверь</span>
+            <span style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '56px',
+              overflow: 'visible',
+              margin: '-11px 0'
+            }}>
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={currentIndex}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="mobile-word"
+                >
+                  {PROPERTY_TYPES[currentIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+            <span style={{ display: 'block', marginTop: '-11px' }}>за 15 минут</span>
+          </span>
         </h1>
 
         <p
@@ -220,6 +237,10 @@ export default function HeroSection() {
       <div
         className="browser-mockup"
         style={{
+          position: 'absolute',
+          bottom: 0,
+          left: '50%',
+          transform: 'translateX(-50%)',
           backgroundColor: 'rgba(255, 255, 255, 0.4)',
           backdropFilter: 'blur(10px)',
           WebkitBackdropFilter: 'blur(10px)',

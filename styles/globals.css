@@ -146,15 +146,15 @@ body {
 
 @media (max-width: 1024px) {
   .hero-title {
-    font-size: 48px;
-    line-height: 56px;
+    font-size: 60px;
+    line-height: 50px;
     width: 85%;
   }
 }
 
 @media (max-width: 768px) {
   .hero-title {
-    font-size: 32px;
+    font-size: 36px;
     line-height: 40px;
     width: 100%;
     padding: 0 8px;
@@ -187,21 +187,21 @@ body {
   display: none;
 }
 
-@media (max-width: 1024px) {
-  .animated-word-mobile {
-    display: inline-block;
-  }
-
-  .animated-word-container {
-    min-width: 420px;
-    height: 56px;
-  }
+/* Mobile animated word - new clean implementation */
+.mobile-word-wrapper {
+  display: none;
 }
 
-@media (max-width: 768px) {
-  .animated-word-container {
-    min-width: 280px;
-    height: 40px;
+@media (max-width: 1024px) {
+  .mobile-word-wrapper {
+    display: block;
+  }
+
+  .mobile-word {
+    background: linear-gradient(90deg, rgb(69, 243, 255) 0%, rgb(54, 255, 131) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
 
@@ -223,8 +223,8 @@ body {
 
 @media (max-width: 768px) {
   .hero-subtitle {
-    font-size: 14px;
-    line-height: 20px;
+    font-size: 16px;
+    line-height: 22px;
     width: 100%;
     max-width: 320px;
   }
