@@ -281,7 +281,7 @@ export default function HowItWorks() {
 
   const steps = [
     {
-      number: '1. Объект',
+      number: '1. Ищем объект',
       title: 'Указываете объект',
       description: 'Адрес, тип недвижимости и ваш контакт — этого достаточно, чтобы запустить проверку. Без сканов, доверенностей и регистрации на госпорталах.',
     },
@@ -400,7 +400,7 @@ export default function HowItWorks() {
                       <div className="data-animation-screen">
                         <h3 className="screen-title mb-6">Подключаемся к базам</h3>
                         <div className="sources-list">
-                          {dataSources.slice(0, 6).map((source, idx) => (
+                          {dataSources.slice(0, 5).map((source, idx) => (
                             <div key={source.name} className="source-item">
                               <div className="flex items-center gap-3 flex-1">
                                 <img
@@ -423,7 +423,7 @@ export default function HowItWorks() {
                             </div>
                           ))}
                         </div>
-                        <p className="text-xs text-center text-default-500 mt-4">...и еще 22 источника</p>
+                        <p className="text-xs text-center text-default-500 mt-4">...и еще 23 источника</p>
                       </div>
                     );
                   } else if (dataScreen === 1) {
