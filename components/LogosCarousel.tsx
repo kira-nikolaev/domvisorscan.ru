@@ -5,8 +5,8 @@ export default function LogosCarousel() {
     <section
       style={{
         backgroundColor: 'transparent',
-        paddingTop: '20px',
-        paddingBottom: '60px',
+        paddingTop: '40px',
+        paddingBottom: '30px',
         overflow: 'hidden',
       }}
     >
