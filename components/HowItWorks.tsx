@@ -56,7 +56,7 @@ export default function HowItWorks() {
   useEffect(() => {
     if (!isVisible || activeCard === null || hoveredCard !== null) return;
 
-    const duration = activeCard === 1 ? 5000 : 4000; // Вторая карточка - 5 сек
+    const duration = activeCard === 1 ? 6000 : 4000; // Вторая карточка - 6 сек
 
     const timer = setTimeout(() => {
       setActiveCard((prev) => {
@@ -395,28 +395,35 @@ export default function HowItWorks() {
                   );
                 } else if (displayCard === 1) {
                   if (dataScreen === 0) {
-                    // Экран 1: Подключение к базам
+                    // Экран 1: Подключение к базам - простой список
                     return (
                       <div className="data-animation-screen">
-                        <h3 className="screen-title">Подключаемся к базам</h3>
+                        <h3 className="screen-title mb-6">Подключаемся к базам</h3>
                         <div className="sources-list">
-                          {dataSources.map((source, idx) => (
-                            <div key={source.name} className="source-row">
-                              <img src={source.src} alt={source.name} className="source-avatar" />
-                              <span className="source-name">{source.name}</span>
-                              <div className="source-connection-status">
-                                {connectionStatus.includes(idx) ? (
-                                  <span className="status-success">Успешно</span>
-                                ) : (
-                                  <span className="status-connecting">
-                                    Подключение
-                                    <Spinner size="sm" variant="dots" className="ml-1 gradient-spinner" />
-                                  </span>
-                                )}
+                          {dataSources.slice(0, 6).map((source, idx) => (
+                            <div key={source.name} className="source-item">
+                              <div className="flex items-center gap-3 flex-1">
+                                <img
+                                  src={source.src}
+                                  alt={source.name}
+                                  className="w-6 h-6 object-contain opacity-60"
+                                />
+                                <span className="text-sm text-default-700 font-medium">{source.name}</span>
                               </div>
+                              {connectionStatus.includes(idx) ? (
+                                <div className="flex items-center gap-1.5">
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="3">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                  </svg>
+                                  <span className="text-sm text-success-600 font-semibold">OK</span>
+                                </div>
+                              ) : (
+                                <Spinner color="success" size="sm" />
+                              )}
                             </div>
                           ))}
                         </div>
+                        <p className="text-xs text-center text-default-500 mt-4">...и еще 22 источника</p>
                       </div>
                     );
                   } else if (dataScreen === 1) {
@@ -424,9 +431,9 @@ export default function HowItWorks() {
                     return (
                       <div className="data-animation-screen">
                         <h3 className="screen-title">Получение данных</h3>
-                        <div className="sources-list">
+                        <div className="progress-list">
                           {dataSources.map((source, idx) => (
-                            <div key={source.name} className="source-row">
+                            <div key={source.name} className="progress-item">
                               <img src={source.src} alt={source.name} className="source-avatar" />
                               <Progress
                                 label={source.name}
@@ -448,10 +455,32 @@ export default function HowItWorks() {
                       </div>
                     );
                   } else {
-                    // Экран 3: Успех
+                    // Экран 3: Успех - большая карточка с blur footer
                     return (
-                      <div className="data-animation-screen success-screen">
-                        <h2 className="success-title">Данные успешно получены!</h2>
+                      <div className="data-animation-screen flex items-center justify-center">
+                        <Card
+                          isFooterBlurred
+                          className="border-none w-full max-w-[400px] h-[280px] success-card-animated"
+                          radius="lg"
+                        >
+                          {/* Градиентный фон */}
+                          <div className="absolute inset-0 bg-gradient-to-br from-emerald-100 via-teal-100 to-cyan-100 dark:from-emerald-950 dark:to-cyan-950" />
+
+                          {/* Центральная иконка успеха - поднята выше для центрирования */}
+                          <div className="absolute top-0 left-0 right-0 bottom-[80px] flex items-center justify-center">
+                            <div className="w-24 h-24 rounded-full bg-success-500/20 flex items-center justify-center">
+                              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                          </div>
+
+                          {/* Blur Footer с сообщением */}
+                          <CardFooter className="absolute bg-white/10 bottom-8 border-t-1 border-zinc-100/50 z-10 justify-center flex-col py-3 w-[calc(100%_-_8px)] ml-1">
+                            <p className="text-lg font-bold text-success-700 mb-1">Данные получены!</p>
+                            <p className="text-tiny text-success-600">Все 27 источников обработаны</p>
+                          </CardFooter>
+                        </Card>
                       </div>
                     );
                   }
@@ -509,22 +538,6 @@ export default function HowItWorks() {
                                   </div>
                                 </div>
                               </CardBody>
-
-                              {/* Стеклянный футер для предупреждений */}
-                              {category.status === 'warning' && (
-                                <CardFooter className="justify-between before:bg-white/10 border-white/20 border-t-1 py-2 px-4">
-                                  <p className="text-tiny text-default-600">Требуется внимание</p>
-                                  <Button
-                                    className="text-tiny"
-                                    color="warning"
-                                    radius="lg"
-                                    size="sm"
-                                    variant="flat"
-                                  >
-                                    Подробнее
-                                  </Button>
-                                </CardFooter>
-                              )}
                             </Card>
                           );
                         })}

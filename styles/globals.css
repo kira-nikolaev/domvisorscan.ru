@@ -848,6 +848,8 @@ body {
   width: 100%;
   max-width: 450px;
   padding: 12px 30px;
+  display: flex;
+  flex-direction: column;
 }
 
 .screen-title {
@@ -862,14 +864,40 @@ body {
 .sources-list {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 0;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e4e4e7;
+  overflow: hidden;
 }
 
-.source-row {
+.source-item {
   display: flex;
   align-items: center;
-  gap: 2px;
-  padding: 2px 0;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid #f4f4f5;
+  transition: background-color 0.2s ease;
+  animation: sourceItemFadeIn 0.3s ease-out;
+}
+
+.source-item:last-child {
+  border-bottom: none;
+}
+
+.source-item:hover {
+  background-color: #fafafa;
+}
+
+@keyframes sourceItemFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes rowFadeIn {
@@ -881,6 +909,19 @@ body {
     opacity: 1;
     transform: translateX(0);
   }
+}
+
+.progress-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.progress-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: rowFadeIn 0.3s ease-out;
 }
 
 .source-avatar {
@@ -1048,6 +1089,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.data-progress-cards-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 /* Успешная карточка */
@@ -1615,4 +1662,21 @@ body {
     width: 100%;
     max-width: 320px;
   }
+}
+
+/* Gradient button style */
+.gradient-button {
+  background: linear-gradient(90deg, rgb(69, 243, 255) 0%, rgb(54, 255, 131) 100%) !important;
+  color: white !important;
+  border: none !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.gradient-button:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(69, 243, 255, 0.4) !important;
+}
+
+.gradient-button:active {
+  transform: translateY(0) !important;
 }
