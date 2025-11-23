@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import Image from 'next/image';
 import { Avatar, AvatarGroup } from "@heroui/avatar";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
@@ -403,10 +404,13 @@ export default function HowItWorks() {
                           {dataSources.slice(0, 5).map((source, idx) => (
                             <div key={source.name} className="source-item">
                               <div className="flex items-center gap-3 flex-1">
-                                <img
+                                <Image
                                   src={source.src}
                                   alt={source.name}
+                                  width={200}
+                                  height={200}
                                   className="w-6 h-6 object-contain opacity-60"
+                                  loading="lazy"
                                 />
                                 <span className="text-sm text-default-700 font-medium">{source.name}</span>
                               </div>
@@ -434,7 +438,14 @@ export default function HowItWorks() {
                         <div className="progress-list">
                           {dataSources.map((source, idx) => (
                             <div key={source.name} className="progress-item">
-                              <img src={source.src} alt={source.name} className="source-avatar" />
+                              <Image
+                                src={source.src}
+                                alt={source.name}
+                                width={200}
+                                height={200}
+                                className="source-avatar"
+                                loading="lazy"
+                              />
                               <Progress
                                 label={source.name}
                                 value={progressValues[idx]}

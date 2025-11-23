@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 export default function JTBDSection() {
   return (
@@ -30,7 +31,14 @@ export default function JTBDSection() {
                 transform: 'matrix(0.965926, -0.258819, 0.258819, 0.965926, 0, 0)',
               }}
             >
-              <img src="/images/icons/1.png" alt="" className="jtbd-icon-image" />
+              <Image
+                src="/images/icons/1.png"
+                alt="Покупка квартиры"
+                width={1024}
+                height={1024}
+                className="jtbd-icon-image"
+                loading="lazy"
+              />
             </div>
           </div>
         </div>
@@ -54,7 +62,14 @@ export default function JTBDSection() {
                 transform: 'rotate(-10deg)',
               }}
             >
-              <img src="/images/icons/2.png" alt="" className="jtbd-icon-image" />
+              <Image
+                src="/images/icons/2.png"
+                alt="Продажа недвижимости"
+                width={1024}
+                height={1024}
+                className="jtbd-icon-image"
+                loading="lazy"
+              />
             </div>
           </div>
         </div>
@@ -69,7 +84,14 @@ export default function JTBDSection() {
               transform: 'rotate(-10deg)',
             }}
           >
-            <img src="/images/icons/3.png" alt="" className="jtbd-icon-image" />
+            <Image
+              src="/images/icons/3.png"
+              alt="Инвестиции в недвижимость"
+              width={1024}
+              height={1024}
+              className="jtbd-icon-image"
+              loading="lazy"
+            />
           </div>
           <div className="jtbd-card">
             <div>
@@ -102,7 +124,14 @@ export default function JTBDSection() {
                 transform: 'rotate(-10deg)',
               }}
             >
-              <img src="/images/icons/4.png" alt="" className="jtbd-icon-image" />
+              <Image
+                src="/images/icons/4.png"
+                alt="Риелторы и брокеры"
+                width={1024}
+                height={1024}
+                className="jtbd-icon-image"
+                loading="lazy"
+              />
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const PROPERTY_TYPES = ['недвижимость', 'квартиру', 'дом', 'участок', 'коттедж', 'таунхаус'];
@@ -374,9 +375,12 @@ export default function HeroSection() {
               overflow: 'hidden',
             }}
           >
-            <img
+            <Image
               src="/screenshot.png"
               alt="DomVisor Scan Screenshot"
+              width={2880}
+              height={1152}
+              priority
               style={{
                 width: '100%',
                 height: 'auto',
