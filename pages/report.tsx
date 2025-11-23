@@ -15,8 +15,8 @@ const mockPropertyData = {
   rooms: '2 комнаты',
   floor: '5 этаж из 12',
   yearBuilt: '2018',
-  marketValue: '18 500 000 ₽',
-  cadastralValue: '12 340 000 ₽',
+  marketValue: '18 500 000 р.',
+  cadastralValue: '12 340 000 р.',
   lastUpdate: '23 ноября 2024',
 };
 
@@ -212,7 +212,7 @@ export default function ReportPage() {
                 textAlign: 'center',
               }}
             >
-              {mockPropertyData.address}
+              Отчёт о полной проверке недвижимости
             </h1>
 
             <p
@@ -268,7 +268,11 @@ export default function ReportPage() {
                     zIndex: 0,
                   }}
                 >
-                  Заказать отчет
+                  Скачать отчет
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginLeft: '4px' }}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 13h6M9 17h6" />
+                  </svg>
                 </button>
               </a>
 
@@ -388,7 +392,7 @@ export default function ReportPage() {
                   paddingLeft: '32px',
                   paddingRight: '32px',
                   position: 'relative',
-                  gap: '12px',
+                  gap: '36px',
                 }}
               >
                 {/* Обременения */}
@@ -417,16 +421,16 @@ export default function ReportPage() {
                   </div>
                 </div>
 
-                {/* Краткое саммари - centered */}
-                <span style={{
-                  fontSize: '14px',
-                  color: 'rgb(17, 24, 28)',
-                  fontWeight: 600,
-                  position: 'absolute',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                }}>
-                  Краткое саммари
+                {/* Краткая сводка по объекту недвижимости - centered */}
+                <span
+                  className="text-xs text-gray-500 uppercase tracking-wide"
+                  style={{
+                    position: 'absolute',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                  }}
+                >
+                  Краткая сводка по объекту недвижимости
                 </span>
               </div>
 
@@ -435,7 +439,7 @@ export default function ReportPage() {
                 style={{
                   width: '100%',
                   padding: '32px',
-                  background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+                  background: 'linear-gradient(135deg, #ffffff 0%, #d9ebff 100%)',
                   minHeight: '400px',
                 }}
               >
@@ -446,7 +450,7 @@ export default function ReportPage() {
                     <div>
                       <p className="text-sm text-gray-600 mb-2">Оценка стоимости</p>
                       <p className="text-3xl font-bold text-gray-900">
-                        17 500 000 ₽ — 19 500 000 ₽
+                        17 500 000 р. — 19 500 000 р.
                       </p>
                     </div>
 
@@ -519,7 +523,7 @@ export default function ReportPage() {
                       </svg>
                       <div>
                         <p className="text-xs text-gray-500 uppercase tracking-wide mb-0.5">Текущие собственники</p>
-                        <p className="text-sm font-semibold text-gray-900">1 человек</p>
+                        <p className="text-sm font-semibold text-gray-900 underline decoration-dotted decoration-gray-400">1 человек</p>
                       </div>
                     </div>
 
@@ -531,7 +535,7 @@ export default function ReportPage() {
                       </svg>
                       <div>
                         <p className="text-xs text-gray-500 uppercase tracking-wide mb-0.5">История владения</p>
-                        <p className="text-sm font-semibold text-gray-900">Найдено 5</p>
+                        <p className="text-sm font-semibold text-gray-900 underline decoration-dotted decoration-gray-400">Найдено 5</p>
                       </div>
                     </div>
 
@@ -543,7 +547,7 @@ export default function ReportPage() {
                       </svg>
                       <div>
                         <p className="text-xs text-gray-500 uppercase tracking-wide mb-0.5">План объекта</p>
-                        <p className="text-sm font-semibold text-gray-900">Найдено 1</p>
+                        <p className="text-sm font-semibold text-gray-900 underline decoration-dotted decoration-gray-400">Найдено 1</p>
                       </div>
                     </div>
                   </div>
@@ -732,7 +736,7 @@ export default function ReportPage() {
                 <div className="flex justify-between items-center p-4 border-l-4 border-green-500 bg-green-50">
                   <div>
                     <p className="font-semibold">Текущая цена</p>
-                    <p className="text-2xl font-bold">18 500 000 ₽</p>
+                    <p className="text-2xl font-bold">18 500 000 р.</p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm text-gray-500">23 ноября 2024</p>
@@ -741,19 +745,19 @@ export default function ReportPage() {
                 </div>
                 <div className="flex justify-between items-center p-4 border-l-4 border-gray-300">
                   <div>
-                    <p className="text-gray-600">18 000 000 ₽</p>
+                    <p className="text-gray-600">18 000 000 р.</p>
                   </div>
                   <p className="text-sm text-gray-500">15 октября 2024</p>
                 </div>
                 <div className="flex justify-between items-center p-4 border-l-4 border-gray-300">
                   <div>
-                    <p className="text-gray-600">17 500 000 ₽</p>
+                    <p className="text-gray-600">17 500 000 р.</p>
                   </div>
                   <p className="text-sm text-gray-500">1 сентября 2024</p>
                 </div>
                 <div className="flex justify-between items-center p-4 border-l-4 border-gray-300">
                   <div>
-                    <p className="text-gray-600">16 800 000 ₽</p>
+                    <p className="text-gray-600">16 800 000 р.</p>
                   </div>
                   <p className="text-sm text-gray-500">15 июля 2024</p>
                 </div>
@@ -787,7 +791,7 @@ export default function ReportPage() {
                         <p className="text-sm text-gray-500">58 м²</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-semibold">17 200 000 ₽</p>
+                        <p className="font-semibold">17 200 000 р.</p>
                         <p className="text-xs text-gray-500">15.10.2024</p>
                       </div>
                     </div>
@@ -799,7 +803,7 @@ export default function ReportPage() {
                         <p className="text-sm text-gray-500">82 м²</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-semibold">23 500 000 ₽</p>
+                        <p className="font-semibold">23 500 000 р.</p>
                         <p className="text-xs text-gray-500">02.09.2024</p>
                       </div>
                     </div>
@@ -811,7 +815,7 @@ export default function ReportPage() {
                         <p className="text-sm text-gray-500">42 м²</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-semibold">12 800 000 ₽</p>
+                        <p className="font-semibold">12 800 000 р.</p>
                         <p className="text-xs text-gray-500">20.08.2024</p>
                       </div>
                     </div>
@@ -828,7 +832,7 @@ export default function ReportPage() {
                 <div className="space-y-4">
                   <div>
                     <p className="text-sm text-gray-500 mb-1">Средняя цена за м²</p>
-                    <p className="text-2xl font-bold">282 400 ₽</p>
+                    <p className="text-2xl font-bold">282 400 р.</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-500 mb-1">Продано за последний год</p>
@@ -946,7 +950,7 @@ export default function ReportPage() {
                 <h3 className="font-semibold">Базовый</h3>
               </CardHeader>
               <CardBody>
-                <p className="text-3xl font-bold mb-2">299 ₽</p>
+                <p className="text-3xl font-bold mb-2">299 р.</p>
                 <p className="text-sm text-gray-600 mb-4">Основная проверка</p>
                 <ul className="text-left space-y-1 text-sm">
                   <li>✓ Проверка обременений</li>
@@ -964,7 +968,7 @@ export default function ReportPage() {
                 </div>
               </CardHeader>
               <CardBody>
-                <p className="text-3xl font-bold mb-2">599 ₽</p>
+                <p className="text-3xl font-bold mb-2">599 р.</p>
                 <p className="text-sm text-gray-600 mb-4">Полная проверка</p>
                 <ul className="text-left space-y-1 text-sm">
                   <li>✓ Всё из базового</li>
@@ -980,7 +984,7 @@ export default function ReportPage() {
                 <h3 className="font-semibold">Премиум</h3>
               </CardHeader>
               <CardBody>
-                <p className="text-3xl font-bold mb-2">999 ₽</p>
+                <p className="text-3xl font-bold mb-2">999 р.</p>
                 <p className="text-sm text-gray-600 mb-4">Максимальная защита</p>
                 <ul className="text-left space-y-1 text-sm">
                   <li>✓ Всё из расширенного</li>
