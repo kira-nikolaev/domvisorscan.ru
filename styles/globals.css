@@ -475,7 +475,7 @@ body {
 
 .jtbd-heading-container {
   text-align: center;
-  max-width: 1000px;
+  max-width: 1200px;
   z-index: 10;
   display: flex;
   align-items: center;
@@ -484,11 +484,12 @@ body {
 
 .jtbd-heading {
   font-size: 64px;
-  font-weight: 600;
-  line-height: 66px;
+  font-weight: 800;
+  line-height: 76px;
   letter-spacing: -5px;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   margin: 0;
+  padding-bottom: 8px;
   background-image: linear-gradient(0deg, rgba(255, 255, 255, 0) -150%, rgb(23, 36, 25));
   background-clip: text;
   -webkit-background-clip: text;
@@ -519,7 +520,7 @@ body {
 @media (hover: hover) {
   .jtbd-card-wrapper:hover .jtbd-card {
     transform: translateY(-8px);
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 12px 32px 12px;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 16px 2px;
   }
 }
 
@@ -780,8 +781,15 @@ body {
 
 /* Скриншот */
 .interface-screenshot {
+  display: none;
   position: sticky;
   top: 100px;
+}
+
+@media (min-width: 768px) {
+  .interface-screenshot {
+    display: block;
+  }
 }
 
 .screenshot-container {

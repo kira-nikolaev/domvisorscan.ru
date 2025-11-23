@@ -5,8 +5,8 @@ export default function JTBDSection() {
     <section className="jtbd-gradient jtbd-section">
       <div className="jtbd-grid-container">
         {/* Central Heading */}
-        <div className="jtbd-heading-container" style={{ gridRow: 11, gridColumn: '10 / 25' }}>
-          <h2 className="jtbd-heading">
+        <div className="jtbd-heading-container" style={{ gridRow: 11, gridColumn: '8 / 27' }}>
+          <h2 className="jtbd-heading" style={{ letterSpacing: '0.02em' }}>
             В каких случаях нужен Домвизор
           </h2>
         </div>

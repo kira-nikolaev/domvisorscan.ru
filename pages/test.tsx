@@ -2,6 +2,7 @@ import Navbar from '@/components/navbar';
 import HeroSection from '@/components/HeroSection';
 import LogosCarousel from '@/components/LogosCarousel';
 import JTBDSection from '@/components/JTBDSection';
+import HowItWorks from '@/components/HowItWorks';
 
 export default function TestPage() {
   return (
@@ -35,6 +36,9 @@ export default function TestPage() {
 
       {/* JTBD Section */}
       <JTBDSection />
+
+      {/* How It Works Section */}
+      <HowItWorks />
     </>
   );
 }
