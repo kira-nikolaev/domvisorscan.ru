@@ -4,7 +4,9 @@ import LogosCarousel from '@/components/LogosCarousel';
 import JTBDSection from '@/components/JTBDSection';
 import HowItWorks from '@/components/HowItWorks';
 import TestimonialsSection from '@/components/TestimonialsSection';
+import PricingSection from '@/components/PricingSection';
 import FAQSection from '@/components/FAQSection';
+import Footer from '@/components/Footer';
 
 export default function TestPage() {
   return (
@@ -45,8 +47,14 @@ export default function TestPage() {
       {/* Testimonials Section */}
       <TestimonialsSection />
 
+      {/* Pricing Section */}
+      <PricingSection />
+
       {/* FAQ Section */}
       <FAQSection />
+
+      {/* Footer */}
+      <Footer />
     </>
   );
 }

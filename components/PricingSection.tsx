@@ -126,7 +126,7 @@ export default function PricingSection() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <section className="relative py-20 px-4 md:px-20 lg:px-32 overflow-hidden">
+    <section className="relative py-20 px-4 sm:px-6 md:px-12 lg:px-20 xl:px-32 overflow-hidden">
       {/* Background gradient effects */}
       <div className="absolute inset-0 pointer-events-none">
         <div
