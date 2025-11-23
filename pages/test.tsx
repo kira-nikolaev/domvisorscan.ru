@@ -3,6 +3,7 @@ import HeroSection from '@/components/HeroSection';
 import LogosCarousel from '@/components/LogosCarousel';
 import JTBDSection from '@/components/JTBDSection';
 import HowItWorks from '@/components/HowItWorks';
+import TestimonialsSection from '@/components/TestimonialsSection';
 
 export default function TestPage() {
   return (
@@ -39,6 +40,9 @@ export default function TestPage() {
 
       {/* How It Works Section */}
       <HowItWorks />
+
+      {/* Testimonials Section */}
+      <TestimonialsSection />
     </>
   );
 }
