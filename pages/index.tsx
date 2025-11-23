@@ -42,16 +42,22 @@ export default function IndexPage() {
       <JTBDSection />
 
       {/* How It Works Section */}
-      <HowItWorks />
+      <div id="how-it-works">
+        <HowItWorks />
+      </div>
 
       {/* Testimonials Section */}
       <TestimonialsSection />
 
       {/* Pricing Section */}
-      <PricingSection />
+      <div id="pricing">
+        <PricingSection />
+      </div>
 
       {/* FAQ Section */}
-      <FAQSection />
+      <div id="faq">
+        <FAQSection />
+      </div>
 
       {/* Footer */}
       <Footer />

@@ -129,48 +129,50 @@ export default function HeroSection() {
         </p>
 
         <div className="cta-buttons">
-          <button
-            className="cta-button-dark"
-            style={{
-              alignItems: 'center',
-              appearance: 'none',
-              backgroundColor: 'rgb(17, 24, 28)',
-              border: '0px solid oklch(0.928 0.006 264.531)',
-              borderRadius: '9999px',
-              boxSizing: 'border-box',
-              color: 'rgb(255, 255, 255)',
-              columnGap: '8px',
-              cursor: 'pointer',
-              display: 'flex',
-              fontSize: '14px',
-              fontFamily: "'Open Sans', sans-serif",
-              fontWeight: 600,
-              height: '40px',
-              justifyContent: 'center',
-              lineHeight: '20px',
-              margin: 0,
-              minWidth: '80px',
-              opacity: 1,
-              overflow: 'hidden',
-              paddingLeft: '16px',
-              paddingRight: '16px',
-              paddingTop: '0px',
-              paddingBottom: '0px',
-              position: 'relative',
-              rowGap: '8px',
-              textAlign: 'center',
-              touchAction: 'manipulation',
-              transform: 'matrix(1, 0, 0, 1, 0, 0)',
-              transitionDuration: '0.25s',
-              transitionProperty: 'transform, scale, color, background, background-color, border-color, text-decoration-color, fill, stroke, opacity',
-              transitionTimingFunction: 'ease',
-              userSelect: 'none',
-              width: 'auto',
-              zIndex: 0,
-            }}
-          >
-            Начать проверку
-          </button>
+          <a href="#pricing" style={{ textDecoration: 'none' }}>
+            <button
+              className="cta-button-dark"
+              style={{
+                alignItems: 'center',
+                appearance: 'none',
+                backgroundColor: 'rgb(17, 24, 28)',
+                border: '0px solid oklch(0.928 0.006 264.531)',
+                borderRadius: '9999px',
+                boxSizing: 'border-box',
+                color: 'rgb(255, 255, 255)',
+                columnGap: '8px',
+                cursor: 'pointer',
+                display: 'flex',
+                fontSize: '14px',
+                fontFamily: "'Open Sans', sans-serif",
+                fontWeight: 600,
+                height: '40px',
+                justifyContent: 'center',
+                lineHeight: '20px',
+                margin: 0,
+                minWidth: '80px',
+                opacity: 1,
+                overflow: 'hidden',
+                paddingLeft: '16px',
+                paddingRight: '16px',
+                paddingTop: '0px',
+                paddingBottom: '0px',
+                position: 'relative',
+                rowGap: '8px',
+                textAlign: 'center',
+                touchAction: 'manipulation',
+                transform: 'matrix(1, 0, 0, 1, 0, 0)',
+                transitionDuration: '0.25s',
+                transitionProperty: 'transform, scale, color, background, background-color, border-color, text-decoration-color, fill, stroke, opacity',
+                transitionTimingFunction: 'ease',
+                userSelect: 'none',
+                width: 'auto',
+                zIndex: 0,
+              }}
+            >
+              Начать проверку
+            </button>
+          </a>
 
           <button
             className="cta-button-outline"
