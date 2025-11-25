@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const PROPERTY_TYPES = ['недвижимость', 'квартиру', 'дом', 'участок', 'коттедж', 'таунхаус'];
@@ -174,47 +175,48 @@ export default function HeroSection() {
             </button>
           </a>
 
-          <button
-            className="cta-button-outline"
-            style={{
-              alignItems: 'center',
-              appearance: 'none',
-              backgroundColor: 'transparent',
-              border: '1px solid rgba(255, 255, 255, 0.4)',
-              borderRadius: '9999px',
-              boxSizing: 'border-box',
-              color: 'rgb(17, 24, 28)',
-              columnGap: '8px',
-              cursor: 'pointer',
-              display: 'flex',
-              fontSize: '14px',
-              fontFamily: "'Open Sans', sans-serif",
-              fontWeight: 600,
-              height: '40px',
-              justifyContent: 'center',
-              lineHeight: '20px',
-              margin: 0,
-              minWidth: '80px',
-              opacity: 1,
-              overflow: 'hidden',
-              paddingLeft: '16px',
-              paddingRight: '16px',
-              paddingTop: '0px',
-              paddingBottom: '0px',
-              position: 'relative',
-              rowGap: '8px',
-              textAlign: 'center',
-              touchAction: 'manipulation',
-              transform: 'matrix(1, 0, 0, 1, 0, 0)',
-              transitionDuration: '0.25s',
-              transitionProperty: 'transform, scale, color, background, background-color, border-color, text-decoration-color, fill, stroke, opacity',
-              transitionTimingFunction: 'ease',
-              userSelect: 'none',
-              width: 'auto',
-              zIndex: 0,
-            }}
-          >
-            Пример отчета
+          <Link href="/report">
+            <button
+              className="cta-button-outline"
+              style={{
+                alignItems: 'center',
+                appearance: 'none',
+                backgroundColor: 'transparent',
+                border: '1px solid rgba(255, 255, 255, 0.4)',
+                borderRadius: '9999px',
+                boxSizing: 'border-box',
+                color: 'rgb(17, 24, 28)',
+                columnGap: '8px',
+                cursor: 'pointer',
+                display: 'flex',
+                fontSize: '14px',
+                fontFamily: "'Open Sans', sans-serif",
+                fontWeight: 600,
+                height: '40px',
+                justifyContent: 'center',
+                lineHeight: '20px',
+                margin: 0,
+                minWidth: '80px',
+                opacity: 1,
+                overflow: 'hidden',
+                paddingLeft: '16px',
+                paddingRight: '16px',
+                paddingTop: '0px',
+                paddingBottom: '0px',
+                position: 'relative',
+                rowGap: '8px',
+                textAlign: 'center',
+                touchAction: 'manipulation',
+                transform: 'matrix(1, 0, 0, 1, 0, 0)',
+                transitionDuration: '0.25s',
+                transitionProperty: 'transform, scale, color, background, background-color, border-color, text-decoration-color, fill, stroke, opacity',
+                transitionTimingFunction: 'ease',
+                userSelect: 'none',
+                width: 'auto',
+                zIndex: 0,
+              }}
+            >
+              Пример отчета
             <span
               className="arrow-icon"
               style={{
@@ -232,7 +234,8 @@ export default function HeroSection() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 12h16m0 0l-6-6m6 6l-6 6" />
               </svg>
             </span>
-          </button>
+            </button>
+          </Link>
         </div>
       </div>
 

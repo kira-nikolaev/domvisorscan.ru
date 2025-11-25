@@ -1,16 +1,20 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { Link } from "@heroui/link";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
+  const isReportPage = router.pathname === '/report';
 
   const menuItems = [
-    { name: 'Как работает', href: '#how-it-works' },
-    { name: 'Примеры отчётов', href: '#' },
-    { name: 'Тарифы', href: '#pricing' },
-    { name: 'FAQ', href: '#faq' },
+    { name: 'Как работает', href: '/#how-it-works' },
+    { name: 'Примеры отчётов', href: '/report' },
+    { name: 'Отзывы', href: '/#testimonials' },
+    { name: 'Тарифы', href: '/#pricing' },
+    { name: 'FAQ', href: '/#faq' },
   ];
 
   const handleMenuToggle = () => {
@@ -42,7 +46,7 @@ export default function Navbar() {
           zIndex: 40,
         }}
       >
-        <div className="flex items-center gap-2.5" style={{ marginLeft: '-4px' }}>
+        <Link href="/" className="flex items-center gap-2.5" style={{ marginLeft: '-4px' }}>
           <svg width="20" height="18" viewBox="0 0 56 52" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fillRule="evenodd" clipRule="evenodd" d="M0 50.5C0 49.6716 0.661624 49 1.47778 49H54.5222C55.3384 49 56 49.6716 56 50.5C56 51.3284 55.3384 52 54.5222 52H1.47778C0.661624 52 0 51.3284 0 50.5Z" fill="url(#paint0_linear_logo)"/>
             <path fillRule="evenodd" clipRule="evenodd" d="M19.943 11.332L35.1348 23.3828V45.98C35.1348 46.9242 34.3642 47.6896 33.4135 47.6896C32.4629 47.6896 31.6923 46.9242 31.6923 45.98V25.0279L19.8877 15.664L7.41368 25.0547V45.98C7.41368 46.9242 6.64305 47.6896 5.69244 47.6896C4.74182 47.6896 3.97119 46.9242 3.97119 45.98V23.356L19.943 11.332Z" fill="url(#paint1_linear_logo)"/>
@@ -73,36 +77,42 @@ export default function Navbar() {
           >
             Домвизор
           </span>
-        </div>
+        </Link>
 
         <div className="navbar-menu flex items-center gap-4">
           <Link
-            href="#how-it-works"
-            className="text-sm font-medium text-white transition-colors"
+            href="/#how-it-works"
+            className="text-sm font-medium text-zinc-400 hover:text-white transition-colors"
           >
             Как работает
           </Link>
           <Link
-            href="#"
-            className="text-sm font-medium text-zinc-400 hover:text-white transition-colors"
+            href="/report"
+            className={`text-sm font-medium transition-colors ${isReportPage ? 'text-white' : 'text-zinc-400 hover:text-white'}`}
           >
             Примеры отчётов
           </Link>
           <Link
-            href="#pricing"
+            href="/#testimonials"
+            className="text-sm font-medium text-zinc-400 hover:text-white transition-colors"
+          >
+            Отзывы
+          </Link>
+          <Link
+            href="/#pricing"
             className="text-sm font-medium text-zinc-400 hover:text-white transition-colors"
           >
             Тарифы
           </Link>
           <Link
-            href="#faq"
+            href="/#faq"
             className="text-sm font-medium text-zinc-400 hover:text-white transition-colors"
           >
             FAQ
           </Link>
         </div>
 
-        <Link href="#pricing">
+        <Link href="/#pricing">
           <button
             className="navbar-button navbar-button-desktop"
             style={{
@@ -201,23 +211,26 @@ export default function Navbar() {
             gap: '8px',
           }}
         >
-          {menuItems.map((item, index) => (
-            <Link
-              key={index}
-              href={item.href}
-              onClick={handleMenuItemClick}
-              className="text-base font-medium text-white hover:text-zinc-300 transition-colors"
-              style={{
-                padding: '12px 16px',
-                borderRadius: '8px',
-                display: 'block',
-              }}
-            >
-              {item.name}
-            </Link>
-          ))}
+          {menuItems.map((item, index) => {
+            const isActive = item.href === '/report' && isReportPage;
+            return (
+              <Link
+                key={index}
+                href={item.href}
+                onClick={handleMenuItemClick}
+                className={`text-base font-medium transition-colors ${isActive ? 'text-white' : 'text-zinc-400 hover:text-white'}`}
+                style={{
+                  padding: '12px 16px',
+                  borderRadius: '8px',
+                  display: 'block',
+                }}
+              >
+                {item.name}
+              </Link>
+            );
+          })}
 
-          <Link href="#pricing" onClick={handleMenuItemClick}>
+          <Link href="/#pricing" onClick={handleMenuItemClick}>
             <button
               style={{
                 width: '100%',

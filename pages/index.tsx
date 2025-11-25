@@ -47,7 +47,9 @@ export default function IndexPage() {
       </div>
 
       {/* Testimonials Section */}
-      <TestimonialsSection />
+      <div id="testimonials">
+        <TestimonialsSection />
+      </div>
 
       {/* Pricing Section */}
       <div id="pricing">
