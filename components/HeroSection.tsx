@@ -1,67 +1,255 @@
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Input } from '@heroui/input';
+import { Button } from '@heroui/button';
 
-const PROPERTY_TYPES = ['недвижимость', 'квартиру', 'дом', 'участок', 'коттедж', 'таунхаус'];
+const SearchIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    aria-hidden="true"
+    fill="none"
+    focusable="false"
+    height="1em"
+    role="presentation"
+    viewBox="0 0 24 24"
+    width="1em"
+    {...props}
+  >
+    <path
+      d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+    />
+    <path
+      d="M22 22L20 20"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+    />
+  </svg>
+);
 
-export default function HeroSection() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+const ArrowRightIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    aria-hidden="true"
+    fill="none"
+    focusable="false"
+    height="1em"
+    role="presentation"
+    viewBox="0 0 24 24"
+    width="1em"
+    {...props}
+  >
+    <path
+      d="M4 12h16m0 0l-6-6m6 6l-6 6"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+    />
+  </svg>
+);
+
+// Mock адреса для автокомплита (имитация DaData)
+const MOCK_ADDRESSES = [
+  { value: 'г Москва, ул Тверская, д 1', data: { city: 'Москва', street: 'Тверская', house: '1' } },
+  { value: 'г Москва, ул Тверская, д 12, кв 45', data: { city: 'Москва', street: 'Тверская', house: '12', flat: '45' } },
+  { value: 'г Москва, ул Тверская, д 15', data: { city: 'Москва', street: 'Тверская', house: '15' } },
+  { value: 'г Москва, ул Арбат, д 10', data: { city: 'Москва', street: 'Арбат', house: '10' } },
+  { value: 'г Москва, ул Арбат, д 24, кв 7', data: { city: 'Москва', street: 'Арбат', house: '24', flat: '7' } },
+  { value: 'г Москва, ул Маршала Бирюзова, д 41, кв 23', data: { city: 'Москва', street: 'Маршала Бирюзова', house: '41', flat: '23' } },
+  { value: 'г Москва, Ленинский проспект, д 32', data: { city: 'Москва', street: 'Ленинский проспект', house: '32' } },
+  { value: 'г Москва, Кутузовский проспект, д 45, кв 120', data: { city: 'Москва', street: 'Кутузовский проспект', house: '45', flat: '120' } },
+  { value: 'г Санкт-Петербург, Невский проспект, д 28', data: { city: 'Санкт-Петербург', street: 'Невский проспект', house: '28' } },
+  { value: 'г Санкт-Петербург, ул Рубинштейна, д 5, кв 12', data: { city: 'Санкт-Петербург', street: 'Рубинштейна', house: '5', flat: '12' } },
+  { value: '77:01:0001001:1234', data: { cadastral: true } },
+  { value: '77:08:0011001:1316', data: { cadastral: true } },
+  { value: '77:08:0011001:1007', data: { cadastral: true } },
+  { value: '50:20:0010101:1234', data: { cadastral: true } },
+];
+
+function HeroSearchBlock() {
+  const [address, setAddress] = useState('');
+  const [mounted, setMounted] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [suggestions, setSuggestions] = useState<typeof MOCK_ADDRESSES>([]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % PROPERTY_TYPES.length);
-    }, 3000); // меняем каждые 3 секунды
-
-    return () => clearInterval(interval);
+    setMounted(true);
   }, []);
 
+  // Фильтрация подсказок при вводе
+  useEffect(() => {
+    if (address.length >= 2) {
+      const filtered = MOCK_ADDRESSES.filter(item =>
+        item.value.toLowerCase().includes(address.toLowerCase())
+      ).slice(0, 5);
+      setSuggestions(filtered);
+      setShowSuggestions(filtered.length > 0);
+    } else {
+      setSuggestions([]);
+      setShowSuggestions(false);
+    }
+  }, [address]);
+
+  const examples = [
+    '77:08:0011001:1316',
+    'г Москва, ул Маршала Бирюзова, д 41, кв 23',
+  ];
+
+  const handleExampleClick = (example: string) => {
+    setAddress(example);
+    setShowSuggestions(false);
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setAddress(suggestion);
+    setShowSuggestions(false);
+  };
+
+  const handleSearch = () => {
+    if (address.trim()) {
+      window.location.href = `https://domvisor.ru/proverka?address=${encodeURIComponent(address)}`;
+    }
+  };
+
+  return (
+    <div className="w-full max-w-xl mx-auto">
+      <div className="relative">
+        <Input
+          value={address}
+          onValueChange={setAddress}
+          onFocus={() => address.length >= 2 && suggestions.length > 0 && setShowSuggestions(true)}
+          onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+          classNames={{
+            label: "text-black/50",
+            input: [
+              "bg-transparent",
+              "text-black/90",
+              "placeholder:text-default-700/50",
+            ],
+            innerWrapper: "bg-transparent",
+            inputWrapper: [
+              "shadow-md",
+              address ? "!bg-white" : "bg-white/60",
+              "backdrop-blur-xl",
+              "backdrop-saturate-200",
+              "hover:!bg-[#ffffff]",
+              "group-data-[focus=true]:!bg-[#ffffff]",
+              "!cursor-text",
+              "pr-1",
+              "gap-2",
+            ],
+          }}
+          placeholder="Введите адрес или кадастровый номер"
+          radius="lg"
+          size="lg"
+          startContent={
+            <SearchIcon className="text-black/40 pointer-events-none shrink-0 text-lg" />
+          }
+          endContent={
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => { setAddress(''); setShowSuggestions(false); }}
+                className={`p-1 rounded-full hover:bg-black/10 transition-all ${mounted && address ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-500">
+                  <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              <Button
+                isIconOnly
+                radius="full"
+                size="sm"
+                className="bg-black text-white hover:bg-gray-800"
+                onPress={handleSearch}
+              >
+                <ArrowRightIcon className="text-lg" />
+              </Button>
+            </div>
+          }
+        />
+
+        {/* Suggestions dropdown */}
+        {showSuggestions && suggestions.length > 0 && (
+          <div
+            className="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden z-50"
+          >
+            {suggestions.map((suggestion, index) => (
+              <button
+                key={index}
+                className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0 flex items-center gap-3"
+                onMouseDown={() => handleSuggestionClick(suggestion.value)}
+              >
+                {suggestion.data.cadastral ? (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-400 flex-shrink-0">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                ) : (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-400 flex-shrink-0">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                )}
+                <span className="text-gray-800 text-sm">{suggestion.value}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+      <p className="mt-3 text-sm text-gray-500 text-center">
+        Например{' '}
+        <button
+          onClick={() => handleExampleClick(examples[0])}
+          className="text-gray-700 hover:text-black transition-colors"
+          style={{
+            textDecoration: 'underline',
+            textDecorationStyle: 'dotted',
+            textDecorationColor: 'rgba(0,0,0,0.3)',
+            textUnderlineOffset: '3px',
+          }}
+        >
+          {examples[0]}
+        </button>
+        {' '}или{' '}
+        <button
+          onClick={() => handleExampleClick(examples[1])}
+          className="text-gray-700 hover:text-black transition-colors"
+          style={{
+            textDecoration: 'underline',
+            textDecorationStyle: 'dotted',
+            textDecorationColor: 'rgba(0,0,0,0.3)',
+            textUnderlineOffset: '3px',
+          }}
+        >
+          {examples[1]}
+        </button>
+      </p>
+    </div>
+  );
+}
+
+export default function HeroSection() {
   return (
     <>
       {/* Flex container for centered content */}
-      <div className="hero-container">
-        <button
-          className="group teaser-button"
+      <div className="hero-container" style={{ paddingTop: '24px' }}>
+        {/* Tagline */}
+        <p
           style={{
-            alignItems: 'center',
-            appearance: 'none',
-            backgroundColor: 'rgb(255, 255, 255)',
-            border: '0px solid oklch(0.928 0.006 264.531)',
-            borderRadius: '9999px',
-            boxShadow: 'rgba(0, 0, 0, 0.05) 0px 2px 15px 0px',
-            boxSizing: 'border-box',
-            color: 'rgb(113, 113, 122)',
-            columnGap: '8px',
-            cursor: 'pointer',
-            display: 'flex',
-            fontFamily: "'Open Sans', sans-serif",
-            fontWeight: 400,
-            justifyContent: 'center',
-            lineHeight: '20px',
-            minWidth: '80px',
-            rowGap: '8px',
+            fontSize: '12px',
+            fontWeight: 500,
+            color: 'rgb(107, 114, 128)',
             textAlign: 'center',
-            touchAction: 'manipulation',
-            transitionDuration: '0.25s',
-            transitionProperty: 'transform, scale, color, background, background-color, border-color, text-decoration-color, fill, stroke, opacity',
-            transitionTimingFunction: 'ease',
-            userSelect: 'none',
-            width: 'auto',
+            marginBottom: '0px',
+            letterSpacing: '0.5px',
+            textTransform: 'uppercase',
           }}
         >
-          Онлайн-проверка недвижимости
-          <svg
-            className="transition-transform duration-200 group-hover:translate-x-1"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
+          Быстрая и безопасная проверка по 27 источникам
+        </p>
 
         <h1
           className="hero-title"
@@ -72,9 +260,9 @@ export default function HeroSection() {
             fontWeight: 800,
             padding: '0 40px',
             textAlign: 'center',
+            marginBottom: '32px',
           }}
         >
-          {/* Desktop version - one line */}
           <span className="static-word-desktop">
             Проверь{' '}
             <span
@@ -89,47 +277,13 @@ export default function HeroSection() {
             </span>
             {' '}за 15 минут
           </span>
-
-          {/* Mobile version - three lines */}
-          <span className="mobile-word-wrapper">
-            <span style={{ display: 'block', marginBottom: '-11px' }}>Проверь</span>
-            <span style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '56px',
-              overflow: 'visible',
-              margin: '-11px 0'
-            }}>
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={currentIndex}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                  className="mobile-word"
-                >
-                  {PROPERTY_TYPES[currentIndex]}
-                </motion.span>
-              </AnimatePresence>
-            </span>
-            <span style={{ display: 'block', marginTop: '-11px' }}>за 15 минут</span>
-          </span>
         </h1>
 
-        <p
-          className="hero-subtitle"
-          style={{
-            boxSizing: 'border-box',
-            color: 'rgb(82, 82, 91)',
-            textAlign: 'center',
-          }}
-        >
-          Автопроверка квартиры по реестрам и судам. Обременения, споры, история объекта и готовый отчёт по рискам сделки
-        </p>
+        {/* Search Block */}
+        <HeroSearchBlock />
 
-        <div className="cta-buttons">
+        {/* CTA Buttons */}
+        <div className="cta-buttons" style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '48px' }}>
           <a href="#pricing" style={{ textDecoration: 'none' }}>
             <button
               className="cta-button-dark"
@@ -152,26 +306,16 @@ export default function HeroSection() {
                 lineHeight: '20px',
                 margin: 0,
                 minWidth: '80px',
-                opacity: 1,
-                overflow: 'hidden',
                 paddingLeft: '16px',
                 paddingRight: '16px',
-                paddingTop: '0px',
-                paddingBottom: '0px',
-                position: 'relative',
-                rowGap: '8px',
                 textAlign: 'center',
-                touchAction: 'manipulation',
-                transform: 'matrix(1, 0, 0, 1, 0, 0)',
                 transitionDuration: '0.25s',
-                transitionProperty: 'transform, scale, color, background, background-color, border-color, text-decoration-color, fill, stroke, opacity',
+                transitionProperty: 'transform, scale, color, background, background-color',
                 transitionTimingFunction: 'ease',
                 userSelect: 'none',
-                width: 'auto',
-                zIndex: 0,
               }}
             >
-              Начать проверку
+              Выбрать тариф
             </button>
           </a>
 
@@ -197,43 +341,33 @@ export default function HeroSection() {
                 lineHeight: '20px',
                 margin: 0,
                 minWidth: '80px',
-                opacity: 1,
-                overflow: 'hidden',
                 paddingLeft: '16px',
                 paddingRight: '16px',
-                paddingTop: '0px',
-                paddingBottom: '0px',
-                position: 'relative',
-                rowGap: '8px',
                 textAlign: 'center',
-                touchAction: 'manipulation',
-                transform: 'matrix(1, 0, 0, 1, 0, 0)',
                 transitionDuration: '0.25s',
-                transitionProperty: 'transform, scale, color, background, background-color, border-color, text-decoration-color, fill, stroke, opacity',
+                transitionProperty: 'transform, scale, color, background, background-color',
                 transitionTimingFunction: 'ease',
                 userSelect: 'none',
-                width: 'auto',
-                zIndex: 0,
               }}
             >
               Пример отчета
-            <span
-              className="arrow-icon"
-              style={{
-                backgroundColor: 'rgb(255, 255, 255)',
-                display: 'flex',
-                height: '22px',
-                width: '22px',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: '9999px',
-                transition: 'transform 0.2s ease',
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 12h16m0 0l-6-6m6 6l-6 6" />
-              </svg>
-            </span>
+              <span
+                className="arrow-icon"
+                style={{
+                  backgroundColor: 'rgb(255, 255, 255)',
+                  display: 'flex',
+                  height: '22px',
+                  width: '22px',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '9999px',
+                  transition: 'transform 0.2s ease',
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 12h16m0 0l-6-6m6 6l-6 6" />
+                </svg>
+              </span>
             </button>
           </Link>
         </div>
@@ -266,7 +400,6 @@ export default function HeroSection() {
           zIndex: 10,
         }}
       >
-        {/* Browser mockup with screenshot */}
         <div
           style={{
             backgroundColor: 'rgb(255, 255, 255)',
@@ -372,26 +505,124 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Screenshot content */}
+          {/* Screenshot content - Property data */}
           <div
             style={{
               width: '100%',
-              padding: '8px',
-              overflow: 'hidden',
+              padding: '32px',
+              background: 'linear-gradient(135deg, #ffffff 0%, #d9ebff 100%)',
+              minHeight: '400px',
             }}
           >
-            <Image
-              src="/screenshot.png"
-              alt="DomVisor Scan Screenshot"
-              width={2880}
-              height={1152}
-              priority
-              style={{
-                width: '100%',
-                height: 'auto',
-                display: 'block',
-              }}
-            />
+            <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1fr] gap-6">
+              {/* Left Column */}
+              <div className="space-y-4">
+                {/* Price Estimate */}
+                <div>
+                  <p className="text-sm text-gray-600 mb-2">Оценка стоимости</p>
+                  <p className="text-3xl font-bold text-gray-900">
+                    17 500 000 р. — 19 500 000 р.
+                  </p>
+                </div>
+
+                {/* Full Address */}
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Адрес объекта</p>
+                  <p className="text-base font-semibold text-gray-900">г. Москва, ул. Тверская, д. 12, кв. 45</p>
+                </div>
+
+                {/* Property Type */}
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Тип помещения</p>
+                  <p className="text-base font-semibold text-gray-900">Квартира, Жилое помещение</p>
+                </div>
+
+                {/* Area */}
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Площадь объекта</p>
+                  <p className="text-base font-semibold text-gray-900">65.5 м²</p>
+                </div>
+
+                {/* Map Link */}
+                <div>
+                  <a
+                    href="#"
+                    className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold text-sm"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Смотреть на карте
+                  </a>
+                </div>
+              </div>
+
+              {/* Middle Column */}
+              <div className="space-y-4">
+                {/* Cadastral Value */}
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Кадастровая стоимость</p>
+                  <p className="text-base font-semibold text-gray-900">12 340 000 р.</p>
+                </div>
+
+                {/* Cadastral Number */}
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Кадастровый номер</p>
+                  <p className="text-base font-mono font-semibold text-gray-900">77:01:0001001:1234</p>
+                </div>
+
+                {/* Building Cadastral Number */}
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Кадастровый номер здания</p>
+                  <p className="text-base font-mono font-semibold text-gray-900">77:08:0011001:1007</p>
+                </div>
+
+                {/* Cadastral Quarter */}
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Кадастровый квартал</p>
+                  <p className="text-base font-mono font-semibold text-gray-900">77:08:0011001</p>
+                </div>
+              </div>
+
+              {/* Third Column - Status Info */}
+              <div className="space-y-4">
+                {/* Текущие собственники */}
+                <div className="flex items-start gap-2">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="flex-shrink-0 mt-0.5" style={{ color: '#6B7280' }}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  <div>
+                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-0.5">Текущие собственники</p>
+                    <p className="text-sm font-semibold text-gray-900 underline decoration-dotted decoration-gray-400">1 человек</p>
+                  </div>
+                </div>
+
+                {/* История владения */}
+                <div className="flex items-start gap-2">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="flex-shrink-0 mt-0.5" style={{ color: '#6B7280' }}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  <div>
+                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-0.5">История владения</p>
+                    <p className="text-sm font-semibold text-gray-900 underline decoration-dotted decoration-gray-400">Найдено 5</p>
+                  </div>
+                </div>
+
+                {/* План объекта */}
+                <div className="flex items-start gap-2">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="flex-shrink-0 mt-0.5" style={{ color: '#6B7280' }}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  <div>
+                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-0.5">План объекта</p>
+                    <p className="text-sm font-semibold text-gray-900 underline decoration-dotted decoration-gray-400">Найдено 1</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
