@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import Navbar from '@/components/navbar';
 import Footer from '@/components/Footer';
-import { Card, CardBody, CardHeader } from '@heroui/card';
+import { Card, CardBody, CardHeader, CardFooter } from '@heroui/card';
+import { Image as HeroImage } from '@heroui/image';
 import { Button } from '@heroui/button';
 import { Chip } from '@heroui/chip';
 import { Progress } from '@heroui/progress';
@@ -211,6 +212,7 @@ export default function ReportPage() {
   const [rentalYearFilter, setRentalYearFilter] = useState<string>('all');
   const [rentalTermFilter, setRentalTermFilter] = useState<string>('all');
   const [rentalPage, setRentalPage] = useState(1);
+  const [showPromoCard, setShowPromoCard] = useState(true);
   const rentalRowsPerPage = 6;
 
   // Filtered sales data
@@ -1675,7 +1677,56 @@ export default function ReportPage() {
 
             {/* Table of Contents - Sticky Sidebar */}
             <div className="hidden lg:block w-72 flex-shrink-0">
-              <div className="sticky top-24">
+              <div className="sticky top-24 space-y-4">
+                {/* Promo Card */}
+                {showPromoCard && (
+                <Card isFooterBlurred className="border-none h-[200px] relative" radius="lg">
+                  <button
+                    onClick={() => setShowPromoCard(false)}
+                    className="absolute top-2 right-2 z-20 w-6 h-6 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50 transition-colors"
+                    aria-label="Закрыть"
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
+                      <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                  </button>
+                  <CardHeader className="absolute z-10 top-1 flex-col !items-start">
+                    <p className="text-tiny text-white uppercase font-semibold">Получить свой отчет</p>
+                    <h4 className="text-white font-bold text-large">Полная проверка недвижимости</h4>
+                  </CardHeader>
+                  <HeroImage
+                    removeWrapper
+                    alt="Проверка недвижимости"
+                    className="z-0 w-full h-full object-cover"
+                    src="/images/promo-card.jpg"
+                  />
+                  <div
+                    className="absolute inset-x-0 top-0 h-24 backdrop-blur-[2px] z-[1]"
+                    style={{
+                      maskImage: 'linear-gradient(to bottom, black 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.2) 70%, transparent 100%)',
+                      WebkitMaskImage: 'linear-gradient(to bottom, black 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.2) 70%, transparent 100%)',
+                    }}
+                  ></div>
+                  <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/30 via-black/15 via-50% to-transparent z-[1]"></div>
+                  <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+                    <p className="text-tiny text-white/80 flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0"></span>
+                      27 источников, от 30 мин
+                    </p>
+                    <Button
+                      className="text-tiny text-white bg-black/20"
+                      color="default"
+                      radius="lg"
+                      size="sm"
+                      variant="flat"
+                    >
+                      Заказать
+                    </Button>
+                  </CardFooter>
+                </Card>
+                )}
+
+                {/* TOC Card */}
                 <Card
                   style={{
                     backgroundColor: '#F8FAFC',
