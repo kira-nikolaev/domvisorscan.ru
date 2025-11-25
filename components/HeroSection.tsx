@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { Input } from '@heroui/input';
 import { Button } from '@heroui/button';
+import { dadataService, isCadastralNumber, type DaDataSuggestion } from '@/services/dadata';
 
 const SearchIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -52,47 +53,54 @@ const ArrowRightIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-// Mock адреса для автокомплита (имитация DaData)
-const MOCK_ADDRESSES = [
-  { value: 'г Москва, ул Тверская, д 1', data: { city: 'Москва', street: 'Тверская', house: '1' } },
-  { value: 'г Москва, ул Тверская, д 12, кв 45', data: { city: 'Москва', street: 'Тверская', house: '12', flat: '45' } },
-  { value: 'г Москва, ул Тверская, д 15', data: { city: 'Москва', street: 'Тверская', house: '15' } },
-  { value: 'г Москва, ул Арбат, д 10', data: { city: 'Москва', street: 'Арбат', house: '10' } },
-  { value: 'г Москва, ул Арбат, д 24, кв 7', data: { city: 'Москва', street: 'Арбат', house: '24', flat: '7' } },
-  { value: 'г Москва, ул Маршала Бирюзова, д 41, кв 23', data: { city: 'Москва', street: 'Маршала Бирюзова', house: '41', flat: '23' } },
-  { value: 'г Москва, Ленинский проспект, д 32', data: { city: 'Москва', street: 'Ленинский проспект', house: '32' } },
-  { value: 'г Москва, Кутузовский проспект, д 45, кв 120', data: { city: 'Москва', street: 'Кутузовский проспект', house: '45', flat: '120' } },
-  { value: 'г Санкт-Петербург, Невский проспект, д 28', data: { city: 'Санкт-Петербург', street: 'Невский проспект', house: '28' } },
-  { value: 'г Санкт-Петербург, ул Рубинштейна, д 5, кв 12', data: { city: 'Санкт-Петербург', street: 'Рубинштейна', house: '5', flat: '12' } },
-  { value: '77:01:0001001:1234', data: { cadastral: true } },
-  { value: '77:08:0011001:1316', data: { cadastral: true } },
-  { value: '77:08:0011001:1007', data: { cadastral: true } },
-  { value: '50:20:0010101:1234', data: { cadastral: true } },
-];
 
 function HeroSearchBlock() {
   const [address, setAddress] = useState('');
   const [mounted, setMounted] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [suggestions, setSuggestions] = useState<typeof MOCK_ADDRESSES>([]);
+  const [suggestions, setSuggestions] = useState<DaDataSuggestion[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedCadnum, setSelectedCadnum] = useState<string | null>(null);
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Фильтрация подсказок при вводе
-  useEffect(() => {
-    if (address.length >= 2) {
-      const filtered = MOCK_ADDRESSES.filter(item =>
-        item.value.toLowerCase().includes(address.toLowerCase())
-      ).slice(0, 5);
-      setSuggestions(filtered);
-      setShowSuggestions(filtered.length > 0);
-    } else {
+  // Запрос подсказок из DaData API
+  const fetchSuggestions = useCallback(async (query: string) => {
+    if (query.length < 2 || isCadastralNumber(query)) {
       setSuggestions([]);
       setShowSuggestions(false);
+      return;
     }
-  }, [address]);
+
+    setIsLoading(true);
+    try {
+      const results = await dadataService.suggest(query);
+      setSuggestions(results);
+      setShowSuggestions(results.length > 0);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Debounce для запросов
+  useEffect(() => {
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    debounceRef.current = setTimeout(() => {
+      fetchSuggestions(address);
+    }, 300);
+
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+    };
+  }, [address, fetchSuggestions]);
 
   const examples = [
     '77:08:0011001:1316',
@@ -104,15 +112,39 @@ function HeroSearchBlock() {
     setShowSuggestions(false);
   };
 
-  const handleSuggestionClick = (suggestion: string) => {
-    setAddress(suggestion);
+  const handleSuggestionClick = (suggestion: DaDataSuggestion) => {
+    console.log('DaData suggestion selected:', suggestion);
+    setAddress(suggestion.value);
+    setSelectedCadnum(suggestion.data.house_cadnum);
     setShowSuggestions(false);
   };
 
-  const handleSearch = () => {
-    if (address.trim()) {
-      window.location.href = `https://domvisor.ru/proverka?address=${encodeURIComponent(address)}`;
+  const handleSearch = async () => {
+    if (!address.trim()) return;
+
+    const utm = 'utm_source=domvisorscan';
+
+    // Если уже есть кадастровый номер из выбранной подсказки
+    if (selectedCadnum) {
+      window.location.href = `https://domvisor.ru/object/${selectedCadnum}?${utm}`;
+      return;
     }
+
+    // Если введён кадастровый номер напрямую
+    if (isCadastralNumber(address)) {
+      window.location.href = `https://domvisor.ru/object/${address.trim()}?${utm}`;
+      return;
+    }
+
+    // Запрашиваем кадастровый номер для введённого адреса
+    const cadnum = await dadataService.findCadnum(address);
+    if (cadnum) {
+      window.location.href = `https://domvisor.ru/object/${cadnum}?${utm}`;
+      return;
+    }
+
+    // Fallback - переход с адресом
+    window.location.href = `https://domvisor.ru/proverka?address=${encodeURIComponent(address)}&${utm}`;
   };
 
   return (
@@ -120,7 +152,10 @@ function HeroSearchBlock() {
       <div className="relative">
         <Input
           value={address}
-          onValueChange={setAddress}
+          onValueChange={(val) => {
+            setAddress(val);
+            setSelectedCadnum(null);
+          }}
           onFocus={() => address.length >= 2 && suggestions.length > 0 && setShowSuggestions(true)}
           onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
           classNames={{
@@ -181,18 +216,12 @@ function HeroSearchBlock() {
               <button
                 key={index}
                 className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0 flex items-center gap-3"
-                onMouseDown={() => handleSuggestionClick(suggestion.value)}
+                onMouseDown={() => handleSuggestionClick(suggestion)}
               >
-                {suggestion.data.cadastral ? (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-400 flex-shrink-0">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                ) : (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-400 flex-shrink-0">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                )}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-400 flex-shrink-0">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
                 <span className="text-gray-800 text-sm">{suggestion.value}</span>
               </button>
             ))}
