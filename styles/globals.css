@@ -1693,3 +1693,10 @@ body {
 .gradient-button:active {
   transform: translateY(0) !important;
 }
+
+/* Accordion: title takes full width to align status with indicator */
+[data-slot="title"] {
+  flex: 1;
+}
+
+

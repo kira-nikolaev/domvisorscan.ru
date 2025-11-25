@@ -33,6 +33,7 @@ const pricingTiers: PricingTier[] = [
     title: "Отчет о переходе прав",
     subtitle: "История сделок и смены собственников с датами и основаниями перехода прав.",
     price: 849,
+    duration: "от 15 минут",
     features: [
       { text: "Все зарегистрированные сделки с объектом" },
       { text: "Информация о предыдущих собственниках и долях" },
@@ -44,6 +45,7 @@ const pricingTiers: PricingTier[] = [
     title: "Отчет об объекте",
     subtitle: "Текущий юридический статус недвижимости: запреты, аресты, обременения, ограничения.",
     price: 849,
+    duration: "от 15 минут",
     features: [
       { text: "Запреты, аресты, обременения и ограничения" },
       { text: "Основные характеристики и параметры объекта" },
@@ -55,7 +57,7 @@ const pricingTiers: PricingTier[] = [
     title: "Полная проверка",
     subtitle: "Полный разбор объекта и собственников с заключением о юридической чистоте.",
     price: 3500,
-    duration: "от 60 минут",
+    duration: "от 30 минут",
     highlighted: true,
     features: [
       { text: "Проверка объекта" },
@@ -157,9 +159,19 @@ export default function PricingSection() {
           </p>
         </div>
 
-        {/* Pricing Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {pricingTiers.map((tier, index) => (
+        {/* Pricing Cards Container with glass effect */}
+        <div
+          style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.4)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255, 255, 255, 0.6)',
+            borderRadius: '24px',
+            padding: '24px',
+          }}
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {pricingTiers.map((tier, index) => (
             <Card
               key={index}
               className="relative p-3 overflow-hidden"
@@ -323,6 +335,7 @@ export default function PricingSection() {
               </CardFooter>
             </Card>
           ))}
+          </div>
         </div>
       </div>
 
