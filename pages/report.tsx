@@ -512,9 +512,9 @@ export default function ReportPage() {
             </div>
           </div>
 
-          {/* Browser screenshot mockup block */}
+          {/* Browser screenshot mockup block - hidden on mobile */}
           <div
-            className="browser-mockup"
+            className="browser-mockup hidden md:block"
             style={{
               position: 'absolute',
               bottom: 0,
