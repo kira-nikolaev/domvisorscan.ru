@@ -10,7 +10,8 @@ import { Link } from '@heroui/link';
 import { Alert } from '@heroui/alert';
 import { Avatar, AvatarGroup } from '@heroui/avatar';
 import { Accordion, AccordionItem } from '@heroui/accordion';
-import { Modal, ModalContent, ModalBody, useDisclosure } from '@heroui/modal';
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@heroui/modal';
+import { Input } from '@heroui/input';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@heroui/dropdown';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@heroui/table';
 import { Pagination } from '@heroui/pagination';
@@ -201,6 +202,12 @@ const recommendations = [
 
 export default function ReportPage() {
   const { isOpen: isPlanOpen, onOpen: onPlanOpen, onClose: onPlanClose } = useDisclosure();
+  const { isOpen: isOrderOpen, onOpen: onOrderOpen, onClose: onOrderClose } = useDisclosure();
+
+  // Order form states
+  const [orderAddress, setOrderAddress] = useState('');
+  const [orderPhone, setOrderPhone] = useState('');
+  const [orderEmail, setOrderEmail] = useState('');
 
   // Filter states for sales table
   const [salesYearFilter, setSalesYearFilter] = useState<string>('all');
@@ -1719,6 +1726,7 @@ export default function ReportPage() {
                       radius="lg"
                       size="sm"
                       variant="flat"
+                      onPress={onOrderOpen}
                     >
                       Заказать
                     </Button>
@@ -2103,6 +2111,105 @@ export default function ReportPage() {
               className="w-full h-auto"
             />
           </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      {/* Order Modal */}
+      <Modal
+        backdrop="blur"
+        isOpen={isOrderOpen}
+        onClose={onOrderClose}
+        size="2xl"
+        classNames={{
+          backdrop: 'bg-black/50',
+        }}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                <h3 className="text-xl font-bold">Оплата заказа</h3>
+                <p className="text-sm font-normal text-[#687076]">
+                  Полная проверка — 3 500 ₽
+                </p>
+              </ModalHeader>
+              <ModalBody>
+                <div className="space-y-4">
+                  {/* Address input */}
+                  <div>
+                    <p className="text-sm text-[#687076] mb-2">Объект проверки:</p>
+                    <Input
+                      type="text"
+                      placeholder="Введите адрес или кадастровый номер"
+                      value={orderAddress}
+                      onValueChange={setOrderAddress}
+                      variant="bordered"
+                      size="lg"
+                      classNames={{
+                        inputWrapper: 'border-[#E4E4E7] hover:border-[#45F3FF] focus-within:border-[#45F3FF]',
+                      }}
+                    />
+                  </div>
+
+                  {/* Contact inputs */}
+                  <div>
+                    <p className="text-sm text-[#687076] mb-2">Контактные данные:</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <Input
+                        type="tel"
+                        label="Телефон"
+                        placeholder="+7 (999) 123-45-67"
+                        value={orderPhone}
+                        onValueChange={setOrderPhone}
+                        variant="bordered"
+                        classNames={{
+                          inputWrapper: 'border-[#E4E4E7] hover:border-[#45F3FF] focus-within:border-[#45F3FF]',
+                        }}
+                      />
+                      <Input
+                        type="email"
+                        label="Email"
+                        placeholder="example@mail.ru"
+                        value={orderEmail}
+                        onValueChange={setOrderEmail}
+                        variant="bordered"
+                        classNames={{
+                          inputWrapper: 'border-[#E4E4E7] hover:border-[#45F3FF] focus-within:border-[#45F3FF]',
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Payment method placeholder */}
+                  <div className="p-4 border-2 border-dashed border-gray-200 rounded-xl text-center">
+                    <svg className="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                    </svg>
+                    <p className="text-sm text-[#687076]">
+                      Здесь будет форма оплаты
+                    </p>
+                    <p className="text-xs text-[#A1A1AA] mt-1">
+                      Интеграция с платёжной системой
+                    </p>
+                  </div>
+                </div>
+              </ModalBody>
+              <ModalFooter>
+                <Button variant="light" onPress={onClose}>
+                  Отмена
+                </Button>
+                <Button
+                  onPress={onClose}
+                  className="text-white font-semibold"
+                  style={{
+                    background: 'linear-gradient(90deg, rgb(69, 243, 255) 0%, rgb(54, 255, 131) 100%)',
+                  }}
+                >
+                  Перейти к оплате
+                </Button>
+              </ModalFooter>
+            </>
+          )}
         </ModalContent>
       </Modal>
 

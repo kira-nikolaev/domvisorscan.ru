@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Navbar from '@/components/navbar';
 import HeroSection from '@/components/HeroSection';
 import LogosCarousel from '@/components/LogosCarousel';
@@ -55,6 +56,24 @@ export default function IndexPage() {
       <div id="pricing">
         <PricingSection />
       </div>
+
+      {/* Dolina Section */}
+      <section className="py-20 px-4 bg-white">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-12">
+            Совершай сделки с недвижимостью безопасно
+          </h2>
+          <div className="flex justify-center">
+            <Image
+              src="/dolina.webp"
+              alt="Совершай сделки с недвижимостью безопасно"
+              width={240}
+              height={160}
+              className="rounded-lg"
+            />
+          </div>
+        </div>
+      </section>
 
       {/* FAQ Section */}
       <div id="faq">

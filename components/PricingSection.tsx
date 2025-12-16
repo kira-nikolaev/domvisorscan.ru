@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
 import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
 import { Divider } from "@heroui/divider";
+import { Input } from "@heroui/input";
 import { Popover, PopoverTrigger, PopoverContent } from "@heroui/popover";
 import {
   Modal,
@@ -42,6 +43,20 @@ const pricingTiers: PricingTier[] = [
     ],
   },
   {
+    title: "Полная проверка",
+    subtitle: "Полный анализ объекта и собственников с заключением о юридической чистоте.",
+    price: 3500,
+    duration: "от 30 минут",
+    highlighted: true,
+    features: [
+      { text: "Полная проверка по 27 источникам" },
+      { text: "Проверка всех собственников*" },
+      { text: "Юридическое заключение" },
+      { text: "Включает документы-отчеты из всех официальных реестров" },
+      { text: "О доме / оценка стоимости" },
+    ],
+  },
+  {
     title: "Отчет об объекте",
     subtitle: "Текущий юридический статус недвижимости: запреты, аресты, обременения, ограничения.",
     price: 849,
@@ -51,20 +66,6 @@ const pricingTiers: PricingTier[] = [
       { text: "Основные характеристики и параметры объекта" },
       { text: "Кадастровая стоимость и базовые сведения из официальных реестров" },
       { text: "Актуальный статус объекта на момент проверки" },
-    ],
-  },
-  {
-    title: "Полная проверка",
-    subtitle: "Полный разбор объекта и собственников с заключением о юридической чистоте.",
-    price: 3500,
-    duration: "от 30 минут",
-    highlighted: true,
-    features: [
-      { text: "Проверка объекта" },
-      { text: "Проверка всех собственников*" },
-      { text: "Юридическое заключение" },
-      { text: "Включает документы-отчеты из всех официальных реестров" },
-      { text: "О доме / оценка стоимости" },
     ],
   },
 ];
@@ -126,6 +127,9 @@ const InfoIconSuccess = () => (
 
 export default function PricingSection() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [address, setAddress] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
 
   return (
     <section className="relative py-20 px-4 sm:px-6 md:px-12 lg:px-20 xl:px-32 overflow-hidden">
@@ -306,6 +310,21 @@ export default function PricingSection() {
                     </li>
                   ))}
                 </ul>
+
+                {/* Included reports badges */}
+                {tier.highlighted && (
+                  <div className="flex flex-col gap-2 -mt-4">
+                    <span className="text-xs text-gray-400">Входит в стоимость:</span>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="text-xs px-2 py-1 rounded-full" style={{ background: 'rgba(69, 243, 255, 0.2)', color: '#45F3FF' }}>
+                        + Переход прав
+                      </span>
+                      <span className="text-xs px-2 py-1 rounded-full" style={{ background: 'rgba(54, 255, 131, 0.2)', color: '#36FF83' }}>
+                        + Объект
+                      </span>
+                    </div>
+                  </div>
+                )}
               </CardBody>
 
               <CardFooter className="pt-4 pb-8">
@@ -339,31 +358,97 @@ export default function PricingSection() {
         </div>
       </div>
 
-      <Modal backdrop="blur" isOpen={isOpen} onClose={onClose}>
+      <Modal
+        backdrop="blur"
+        isOpen={isOpen}
+        onClose={onClose}
+        size="2xl"
+        classNames={{
+          backdrop: 'bg-black/50',
+        }}
+      >
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Заказать проверку
+                <h3 className="text-xl font-bold">Оплата заказа</h3>
+                <p className="text-sm font-normal text-[#687076]">
+                  Полная проверка — 3 500 ₽
+                </p>
               </ModalHeader>
               <ModalBody>
-                <p>
-                  Здесь будет форма заказа проверки недвижимости.
-                </p>
+                <div className="space-y-4">
+                  {/* Address input */}
+                  <div>
+                    <p className="text-sm text-[#687076] mb-2">Объект проверки:</p>
+                    <Input
+                      type="text"
+                      placeholder="Введите адрес или кадастровый номер"
+                      value={address}
+                      onValueChange={setAddress}
+                      variant="bordered"
+                      size="lg"
+                      classNames={{
+                        inputWrapper: 'border-[#E4E4E7] hover:border-[#45F3FF] focus-within:border-[#45F3FF]',
+                      }}
+                    />
+                  </div>
+
+                  {/* Contact inputs */}
+                  <div>
+                    <p className="text-sm text-[#687076] mb-2">Контактные данные:</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <Input
+                        type="tel"
+                        label="Телефон"
+                        placeholder="+7 (999) 123-45-67"
+                        value={phone}
+                        onValueChange={setPhone}
+                        variant="bordered"
+                        classNames={{
+                          inputWrapper: 'border-[#E4E4E7] hover:border-[#45F3FF] focus-within:border-[#45F3FF]',
+                        }}
+                      />
+                      <Input
+                        type="email"
+                        label="Email"
+                        placeholder="example@mail.ru"
+                        value={email}
+                        onValueChange={setEmail}
+                        variant="bordered"
+                        classNames={{
+                          inputWrapper: 'border-[#E4E4E7] hover:border-[#45F3FF] focus-within:border-[#45F3FF]',
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Payment method placeholder */}
+                  <div className="p-4 border-2 border-dashed border-gray-200 rounded-xl text-center">
+                    <svg className="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                    </svg>
+                    <p className="text-sm text-[#687076]">
+                      Здесь будет форма оплаты
+                    </p>
+                    <p className="text-xs text-[#A1A1AA] mt-1">
+                      Интеграция с платёжной системой
+                    </p>
+                  </div>
+                </div>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Закрыть
+                <Button variant="light" onPress={onClose}>
+                  Отмена
                 </Button>
                 <Button
-                  style={{
-                    background:
-                      "linear-gradient(90deg, rgb(69, 243, 255) 0%, rgb(54, 255, 131) 100%)",
-                  }}
-                  className="text-white"
                   onPress={onClose}
+                  className="text-white font-semibold"
+                  style={{
+                    background: 'linear-gradient(90deg, rgb(69, 243, 255) 0%, rgb(54, 255, 131) 100%)',
+                  }}
                 >
-                  Оформить заказ
+                  Перейти к оплате
                 </Button>
               </ModalFooter>
             </>
